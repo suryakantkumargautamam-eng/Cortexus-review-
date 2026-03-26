@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Review</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f4f6f9;
+  padding: 20px;
+}
+
+.container {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 400px;
+  margin: auto;
+}
+
+h2 { color: #333; }
+
+input {
+  padding: 10px;
+  width: 90%;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+#review {
+  margin: 20px 0;
+  font-size: 16px;
+  min-height: 80px;
+}
+
+button {
+  padding: 12px 18px;
+  margin: 8px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.generate { background: #4CAF50; color: white; }
+.copy { background: #2196F3; color: white; }
+
+.note {
+  font-size: 13px;
+  color: gray;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>⭐ Leave a Review</h2>
+
+<input type="text" id="name" placeholder="Enter your name (optional)">
+
+<div id="review">Click Generate Review</div>
+
+<button class="generate" onclick="generateReview()">Generate Review</button>
+<br>
+<button class="copy" onclick="copyAndOpen()">Copy & Open Google</button>
+
+<div class="note">
+Review will be copied and Google page will open automatically
+</div>
+
+</div>
+
+<script>
+
+let shortReviews = [
+"Excellent physiotherapy service. Highly recommended.",
+"Very professional and effective treatment.",
+"Great experience. Pain relief was quick.",
+"Clean clinic and friendly staff.",
+"Highly satisfied with the therapy."
+];
+
+let longReviews = [
+"I had a great experience at this clinic. The therapist is very knowledgeable and supportive. My pain improved significantly after a few sessions.",
+"One of the best physiotherapy clinics. The treatment is very effective and the staff is polite and professional. Highly recommended.",
+"The therapist explained everything clearly and provided excellent treatment. I noticed great improvement in my condition.",
+"Very clean and well-maintained clinic. The therapy sessions were very helpful and I felt much better.",
+"I got fast recovery from my pain. The exercises and guidance were extremely helpful."
+];
+
+let used = [];
+
+function generateReview() {
+
+  let allReviews = [...shortReviews, ...longReviews];
+
+  if (used.length === allReviews.length) {
+    used = [];
+  }
+
+  let i;
+  do {
+    i = Math.floor(Math.random() * allReviews.length);
+  } while (used.includes(i));
+
+  used.push(i);
+
+  let name = document.getElementById("name").value.trim();
+  let reviewText = allReviews[i];
+
+  if(name !== ""){
+    reviewText = "I, " + name + ", had a great experience. " + reviewText;
+  }
+
+  document.getElementById("review").innerText = "⭐⭐⭐⭐⭐ " + reviewText;
+}
+
+function copyAndOpen() {
+
+  let text = document.getElementById("review").innerText;
+
+  if(text === "Click Generate Review"){
+    alert("Please generate a review first");
+    return;
+  }
+
+  navigator.clipboard.writeText(text);
+
+  setTimeout(function() {
+    window.open("https://maps.app.goo.gl/xtfqFHcmeHyK5LvJ6", "_blank");
+  }, 300);
+}
+
+</script>
+
+</body>
+</html>
